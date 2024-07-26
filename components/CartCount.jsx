@@ -3,21 +3,26 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 export default function CartCount() {
-  const cartItems = useSelector((store) => store.cart);
-  
+  const cart = useSelector((state) => state.cart);
   const [cartLength, setCartLength] = React.useState(0);
-  const [cartQty, setCartQty] = React.useState(0);
+  const [totalQuantity, setTotalQuantity] = React.useState(0);
 
   React.useEffect(() => {
-    setCartLength(cartItems?.length || 0);
-  }, [cartItems]);
+    setCartLength(cart.length);
+  }, [cart]);
 
   React.useEffect(() => {
-    const totalQty = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-    setCartQty(totalQty);
-  }, [cartItems, cartItems.map((item) => item.quantity)]);
+    const quantitySum = cart.reduce((acc, cartItem) => acc + cartItem.qty, 0);
+    setTotalQuantity(quantitySum);
+  }, [cart]);
 
-  if (cartLength > 0) return <span>{cartLength}</span>;
+  if (cartLength > 0) {
+    return (
+      <span>
+        {totalQuantity}
+      </span>
+    );
+  }
 
   return <span>0</span>;
 }

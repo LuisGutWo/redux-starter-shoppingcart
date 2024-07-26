@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-// Carga el estado inicial desde localStorage
+// Define el estado inicial desde localStorage
 const loadState = () => {
   try {
     const serializedState = localStorage.getItem("cart");
@@ -31,60 +31,62 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addToCart: (state, action) => {
+
+    //Slice para agregar al carro
+    addToCart: (store, action) => {
       const { id, title, price, image } = action.payload;
       // Check if the item already exists in the cart
-      const existingItem = state.find((item) => item.id === id);
+      const existingItem = store.find((item) => item.id === id);
 
       if (existingItem) {
         // If the item exists, update the quantity
         existingItem.qty += 1;
       } else {
         // If the item doesn't exist, add it to the cart
-        state.push({ id, title, price, qty: 1, image });
+        store.push({ id, title, price, qty: 1, image });
       }
 
-      saveState(state);
+      saveState(store, action);
 
-      return state;
+      return store;
     },
-    removeFromCart: (state, action) => {
+    removeFromCart: (store, action) => {
       const cartId = action.payload;
-      const existingItem = state.find((item) => item.id === cartId);
+      const existingItem = store.find((item) => item.id === cartId);
       if (existingItem) {
         if (existingItem.qty > 1) {
           existingItem.qty -= 1;
         } else {
-          state = state.filter((item) => item.id !== cartId);
+          store = store.filter((item) => item.id !== cartId);
         }
-        saveState(state);
+        saveState(store, action);
 
-        return state;
+        return store;
       }
     },
-    incrementQty: (state, action) => {
+    incrementQty: (store, action) => {
       const cartId = action.payload;
-      const cartItem = state.find((item) => item.id === cartId);
+      const cartItem = store.find((item) => item.id === cartId);
       if (cartItem) {
         cartItem.qty += 1;
-        saveState(state);
+        saveState(store);
       }
-      return state;
+      return store;
     },
-    decrementQty: (state, action) => {
+    decrementQty: (store, action) => {
       const cartId = action.payload;
-      const idx = state.findIndex((item) => item.id === cartId);
+      const idx = store.findIndex((item) => item.id === cartId);
       if (idx !== -1) {
-        const cartItem = state[idx];
-        if (cartItem.qty > 1) {
+        const cartItem = store[idx];
+        if (cartItem) {
           cartItem.qty -= 1;
         } else {
-          state.splice(idx, 1);
+          store.splice(idx, 1);
         }
       }
 
-      saveState(state);
-      return state;
+      saveState(store);
+      return store;
     },
   },
 });
