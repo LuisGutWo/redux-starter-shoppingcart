@@ -1,40 +1,41 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 // Define el estado inicial desde localStorage
-const loadState = () => {
-  try {
-    const serializedState = localStorage.getItem("cart");
-    if (serializedState === null) {
-      return undefined;
-    }
-    return JSON.parse(serializedState);
-  } catch (err) {
-    return undefined;
-  }
-};
+// const loadState = () => {
+//   try {
+//     const serializedState = localStorage.getItem("cart");
+//     if (serializedState === null) {
+//       return undefined;
+//     }
+//     return JSON.parse(serializedState);
+//   } catch (err) {
+//     return undefined;
+//   }
+// };
 
 //Guarda el estado en localStorage
-const saveState = (store) => {
-  try {
-    const serializedState = JSON.stringify(store);
-    localStorage.setItem("cart", serializedState);
-  } catch {
-    // ignore write errors
-  }
-};
+// const saveState = (store) => {
+//   try {
+//     const serializedState = JSON.stringify(store);
+//     localStorage.setItem("cart", serializedState);
+//   } catch {
+//     // ignore write errors
+//   }
+// };
 
 // Carga el estado inicial desde localStorage
-const initialState = loadState() || [];
+// const initialState = loadState() || [];
+
+const initialState = [];
 
 //Create the slice with Reducers
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-
     //Slice para agregar al carro
     addToCart: (store, action) => {
-      const { id, title, price, image } = action.payload;
+      const { id, attributes:title, price, image } = action.payload;
       // Check if the item already exists in the cart
       const existingItem = store.find((item) => item.id === id);
 
@@ -43,12 +44,12 @@ const cartSlice = createSlice({
         existingItem.qty += 1;
       } else {
         // If the item doesn't exist, add it to the cart
-        store.push({ id, title, price, qty: 1, image });
+        store.push({ id, attributes:title, price, qty: 1, image });
       }
 
-      saveState(store, action);
+      // saveState(store);
 
-      return store;
+      // return store;
     },
     removeFromCart: (store, action) => {
       const cartId = action.payload;
@@ -59,7 +60,7 @@ const cartSlice = createSlice({
         } else {
           store = store.filter((item) => item.id !== cartId);
         }
-        saveState(store, action);
+        // saveState(store);
 
         return store;
       }
@@ -69,23 +70,19 @@ const cartSlice = createSlice({
       const cartItem = store.find((item) => item.id === cartId);
       if (cartItem) {
         cartItem.qty += 1;
-        saveState(store);
+        // saveState(store);
       }
       return store;
     },
     decrementQty: (store, action) => {
       const cartId = action.payload;
-      const idx = store.findIndex((item) => item.id === cartId);
-      if (idx !== -1) {
-        const cartItem = store[idx];
-        if (cartItem) {
-          cartItem.qty -= 1;
-        } else {
-          store.splice(idx, 1);
-        }
+      const cartItem = store.find((item) => item.id === cartId);
+      if (cartItem && cartItem.qty > 1) {
+        cartItem.qty -= 1;
       }
 
-      saveState(store);
+      // saveState(store);
+
       return store;
     },
   },

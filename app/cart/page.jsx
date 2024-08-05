@@ -8,10 +8,11 @@ import { useSelector } from "react-redux";
 export default function Cart() {
   const cartItems = useSelector((store) => store.cart);
   const subTotal = cartItems.reduce((acc, currentItem) => {
-    return acc + currentItem.price * currentItem.qty;
+    return acc + currentItem.attributes?.price * currentItem.qty;
   }, 0).toFixed(2);
 
   console.log(cartItems);
+  console.log(subTotal);
 
   return (
     <div className="px-20 py-16">

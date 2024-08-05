@@ -29,14 +29,14 @@ export default function CartProduct({ cartItem }) {
       <div className="flex items-center justify-between border-b border-slate-400  pb-3 font-semibold text-sm mb-4">
         <div className="flex items-center gap-3">
           <Image
-            src={cartItem.image}
+            src={cartItem.attributes?.image}
             width={249}
             height={249}
-            alt={cartItem.title}
+            alt={cartItem.attributes?.title}
             className="rounded-xl w-20 h-20"
           />
           <div className="flex flex-col">
-            <h2>{cartItem.title}</h2>
+            <h2>{cartItem.attributes?.title}</h2>
           </div>
         </div>
         <div className=" rounded-xl border border-gray-400 flex gap-3 items-center ">
@@ -55,7 +55,7 @@ export default function CartProduct({ cartItem }) {
           </button>
         </div>
         <div className="flex items-center gap-2">
-          <h4>${cartItem.price}</h4>
+          <h4>${cartItem.attributes?.price}</h4>
           <button onClick={() => handleItemDelete(cartItem.id)}>
             <Trash2 className="text-red-600 w-5 h-5" />
           </button>

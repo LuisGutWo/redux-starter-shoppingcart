@@ -40,7 +40,7 @@ export default function ProductList({ products }) {
       dotListClass="custom-dot-list-style"
       itemClass="px-4"
     >
-      {products.map((product, i) => {
+      {products.data.map((product, i) => {
         return <Product key={i} product={product} />;
       })}
     </Carousel>

@@ -18,21 +18,21 @@ export default function Product({ product }) {
     <div className="rounded-lg mr-3  bg-white dark:bg-slate-900 overflow-hidden border shadow">
       <Link href="#">
         <Image
-          src={product.image}
-          alt={product.title}
+          src={product.attributes?.image}
+          alt={product.attributes?.title}
           width={556}
           height={556}
           className="w-full h-48 object-cover"
         />
       </Link>
       <div className="px-4">
-        <Link href={`/products/${product.slug}`}>
+        <Link href={`/products/${product.attributes?.slug}`}>
           <h2 className="text-center dark:text-slate-200 text-slate-800 my-2 font-semibold">
-            {product.title}
+            {product.attributes?.title}
           </h2>
         </Link>
         <div className="flex items-center justify-between gap-2 pb-3 dark:text-slate-200 text-slate-800">
-          <p>$ {product.price}</p>
+          <p>$ {product.attributes?.price}</p>
           <button
             onClick={() => handleAddItemToCart()}
             className="flex items-center space-x-2 bg-lime-600 px-4 py-2 rounded-md text-white"

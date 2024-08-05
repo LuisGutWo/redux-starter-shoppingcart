@@ -3,7 +3,7 @@ import ProductList from "@/components/ProductList";
 import { getData } from "@/lib/getData";
 import Link from "next/link";
 const HomePage = async () => {
-  const products = (await getData("https://fakestoreapi.com/products")) ?? [];
+  const products = (await getData("https://autonivelante-strapi-server.onrender.com/api/autonivelante-products?populate=*")) ?? [];
 
   return (
     <div className=" px-20 py-16">
